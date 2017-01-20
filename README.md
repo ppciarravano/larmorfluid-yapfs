@@ -8,7 +8,7 @@ Author: Pier Paolo Ciarravano [http://www.larmor.com](http://www.larmor.com)
 
 This project is another classical implementation of PIC/FLIP fluid simulation solver based on algorithms described in the book “Fluid Simulation for Computer Graphics” by Robert Bridson, but with some particular future goals:
 
-* Use of OpenVDB and future implementation using Dneg's [https://github.com/dneg/openvdb_points_dev](OpenVDBPoints) lib
+* Use of [OpenVDB](http://www.openvdb.org/) and future implementation using Dneg's [OpenVDBPoints](https://github.com/dneg/openvdb_points_dev) lib
 * NVIDIA CUDA 8 and cuSPARSE API
 * Multithread
 * Handling of large grid and large dataset
@@ -46,6 +46,7 @@ SPARSE SOLVER: Total iterations =   8, residual = 8.643779e-06   NxM = 1000000x1
 SPARSE SOLVER:  Test Summary:  Error amount = 0.000006
 INFO - TOTAL TIME IN MILLIESEC: 12.639971
 INFO - TOTAL ERROR: 0.000000
+.....
 
 ```
 
