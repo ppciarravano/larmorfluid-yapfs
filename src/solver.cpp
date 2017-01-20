@@ -462,13 +462,6 @@ namespace yapfs
                 }
     }
 
-    void getIndexTemp(int64_t idx_row, int64_t &i, int64_t &j, int64_t &k)
-    {
-        k = idx_row % 16;
-        j = (( idx_row - k ) / 16) % 16;
-        i =  ( idx_row - k - 16*j) / 16 / 16;
-    }
-
     void Solver::solvePressure()
     {
 
