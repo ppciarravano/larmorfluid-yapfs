@@ -10,13 +10,13 @@ This project is another classical implementation of PIC/FLIP fluid simulation so
 
 * Use of [OpenVDB](http://www.openvdb.org/) and future implementation using Dneg's [OpenVDBPoints](https://github.com/dneg/openvdb_points_dev) lib
 * NVIDIA CUDA 8 and cuSPARSE API
-* Multithread
+* Multithread using TBB
 * Handling of large grid and large dataset
-* Use of (NVIDIA GVDB Sparse Volumes)[https://developer.nvidia.com/gvdb]
-* Export particles
-* Import from Alembic
-* Unit test
-* Availability of AWS EC2 instance AMI already configured to run the solver
+* Use of [https://developer.nvidia.com/gvdb](NVIDIA GVDB Sparse Volumes)
+* Export particles with [https://www.disneyanimation.com/technology/partio.html](Disney Partio) or other formats
+* Import from [http://www.alembic.io/](Alembic)
+* Unit test using CppUnit
+* Availability of AWS EC2 AMI image already configured to run the solver easily on a [http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/accelerated-computing-instances.html](AWS EC2 P2 Istances)
 
 The project is still in development and debugging.
 
