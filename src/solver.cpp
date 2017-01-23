@@ -200,10 +200,19 @@ namespace yapfs
     void Solver::exportFrame()
     {
         L_LOG_INFO("Export FRAME ID: " + to_string(mIdFrame));
-        // TODO
+        // TODO: implement export of particles maybe using Disney's Partio https://www.disneyanimation.com/technology/partio.html
 
         // TODO: remove and change, it is just for the OpenGL viewer
-        mParticles->partFrame.push_back(mParticles->mPosition);
+        // Of course this is a incredible waste of memory, but it is used only for first debugging
+        frameParticleP.push_back(mParticles->mPosition); // particles position
+        frameParticleV.push_back(mParticles->mVelocity); // particles velocity
+
+        Grid<Vec3DGrid> copyGridV(mGVel->mVoxelSize);
+        copyGridV.deepCopyFromGrid(mGVel);
+        frameGridV.push_back(copyGridV); // grids velocities
+
+        frameGridT.push_back(*mGTypeVoxel); // grids type voxels
+
     }
 
     void Solver::moveParticlesInGrid(LReal dt)
@@ -410,6 +419,8 @@ namespace yapfs
         // TODO: Solid case
 
         // Mark all as AIR
+	// TODO: use instead a default grid value VoxelType::AIR
+        mGTypeVoxel->clear();
         for(int64_t i = mMinN.x(); i < mMaxN.x(); ++i)
             for(int64_t j = mMinN.y(); j < mMaxN.y(); ++j)
                 for(int64_t k = mMinN.z(); k < mMaxN.z(); ++k)
@@ -433,6 +444,28 @@ namespace yapfs
     void Solver::velocityExtrapolation()
     {
         // TODO
+
+/*
+        // Level set of voxel topology
+        BoolGrid maskGrid(false);
+        openvdb::math::Transform::Ptr transform = openvdb::math::Transform::createLinearTransform(mGTypeVoxel->mVoxelSize);
+        maskGrid.setTransform(transform);
+        BoolGrid::Accessor accessor = maskGrid.getAccessor();
+        for(int64_t i = mMinN.x(); i < mMaxN.x(); ++i)
+            for(int64_t j = mMinN.y(); j < mMaxN.y(); ++j)
+                for(int64_t k = mMinN.z(); k < mMaxN.z(); ++k)
+                {
+                    if ( mGTypeVoxel->getValue(i, j, k) == VoxelType::FLUID )
+                    {
+                        accessor.setValue(openvdb::Coord(i, j, k), true);
+                    }
+                }
+        maskGrid.tree().voxelizeActiveTiles();
+        FloatGrid::Ptr tls = openvdb::tools::topologyToLevelSet(maskGrid);
+        //tls value in grid is > 0 if outside fluid, <0 otherwise inside
+
+*/
+
     }
 
     void Solver::boundaryConditions()
@@ -450,11 +483,11 @@ namespace yapfs
                     LReal yResult = vel.y();
                     LReal zResult = vel.z();
 
-                    if ( (i == mMinN.x()) || (i == mMaxN.x()+1) )
+                    if ( (i == mMinN.x()) || (i == mMaxN.x()) )
                         xResult = 0.0;
-                    if ( (j == mMinN.y()) || (j == mMaxN.y()+1) )
+                    if ( (j == mMinN.y()) || (j == mMaxN.y()) )
                         yResult = 0.0;
-                    if ( (k == mMinN.z()) || (k == mMaxN.z()+1) )
+                    if ( (k == mMinN.z()) || (k == mMaxN.z()) )
                         zResult = 0.0;
 
                     Vec3d result(xResult, yResult, zResult);

@@ -46,6 +46,7 @@
 #include <openvdb/tools/Interpolation.h>
 #include <openvdb/tools/VelocityFields.h>
 #include <openvdb/tools/GridOperators.h>
+#include <openvdb/tools/TopologyToLevelSet.h>
 
 #include "common.h"
 #include "log.h"
@@ -57,6 +58,19 @@
 
 using namespace openvdb;
 using namespace std;
+
+/*
+// TODO: To use for mGTypeVoxel waste memory with Grid<Int32Grid>
+namespace openvdb
+{
+    OPENVDB_USE_VERSION_NAMESPACE
+    namespace OPENVDB_VERSION_NAME
+    {
+        typedef tree::Tree4<uint8_t, 5, 4, 3>::Type UInt8Tree;
+        typedef Grid<UInt8Tree> UInt8Grid;
+    }
+}
+*/
 
 namespace yapfs
 {
@@ -134,6 +148,13 @@ namespace yapfs
             void addGradient();
             void saveVelocitiesUpdate();
             void updateParticlesVelocity();
+
+
+            // TODO: remove and change: it is used only for the temporary OpenGL viewer debugger
+            vector< vector<Vec3d> > frameParticleP; // particles position
+            vector< vector<Vec3d> > frameParticleV; // particles velocity
+            vector< Grid<Vec3DGrid> > frameGridV; // grids velocities
+            vector< Grid<Int32Grid> > frameGridT; // grids type voxels
 
     };
 

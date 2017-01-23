@@ -40,8 +40,12 @@
 
 namespace yapfs
 {
+
     //TODO: use CUSPARSE_MATRIX_TYPE_SYMMETRIC for better memory performance
 
+    // https://devblogs.nvidia.com/parallelforall/optimizing-high-performance-conjugate-gradient-benchmark-gpus/
+
+    // This implements a conjugate gradient solver on GPU using CUBLAS and CUSPARSE library.
     // Solve Ax = b using cuda conjugate gradient cuSPARSE API
     // A is the CSR matrix: see http://docs.nvidia.com/cuda/cusparse/#compressed-sparse-row-format-csr for CSR format
     // b is rhs

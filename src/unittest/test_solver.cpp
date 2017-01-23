@@ -45,6 +45,8 @@ class TestCaseSolver : public CppUnit::TestCase {
         {
             L_LOG_INFO("Run Solver on grid dimension: " + to_string( gridDim ) + "x" + to_string( gridDim ) + "x" + to_string( gridDim ) );
 
+            //TODO: build properly A and b in order to have always a solution
+
             // A*x = b (b is rhs)
             // cubic grid: same dimension gridDim in x, y and z a axes
             int N;

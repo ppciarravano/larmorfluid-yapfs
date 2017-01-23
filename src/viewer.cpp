@@ -76,6 +76,7 @@ namespace yapfs {
 
     unsigned int idFrame = 0;
     unsigned int idMaxFrame = 0;
+    unsigned int typeView = 0;
 
     // Camera and lookat position
     Camera eyeCamera;
@@ -363,15 +364,97 @@ namespace yapfs {
         Vec3d maxBox = solverPtr->mMaxBox;
         drawBox(minBox*scale_anim, maxBox*scale_anim);
 
-        // Draw particles
-        glBegin(GL_POINTS);
-        for(int32_t i = 0; i < ((solverPtr->mParticles->partFrame)[idFrame]).size(); ++i)
+        // typeView is set pressing F6
+        if (typeView == 0)
         {
-            Vec3d pPos = ((solverPtr->mParticles->partFrame)[idFrame])[i]*scale_anim;
-            glVertex3f( pPos.x(), pPos.y(), pPos.z() );
+            // Draw particles positions
+            glBegin(GL_POINTS);
+            for(int32_t i = 0; i < ((solverPtr->frameParticleP)[idFrame]).size(); ++i)
+            {
+                Vec3d pPos = ((solverPtr->frameParticleP)[idFrame])[i]*scale_anim;
+                glVertex3f( pPos.x(), pPos.y(), pPos.z() );
+            }
+            glEnd();
         }
-        glEnd();
+        else if (typeView == 1)
+        {
+            // Draw particles velocities
+            glBegin(GL_LINES);
+            for(int32_t i = 0; i < ((solverPtr->frameParticleP)[idFrame]).size(); i+=7)
+            {
+                Vec3d pPos = ((solverPtr->frameParticleP)[idFrame])[i]*scale_anim;
+                Vec3d pPosVel = ((solverPtr->frameParticleV)[idFrame])[i];
+                glVertex3f( pPos.x(), pPos.y(), pPos.z() );
+                glVertex3f( pPos.x() + pPosVel.x(), pPos.y() + pPosVel.y(), pPos.z() + pPosVel.z() );
+            }
+            glEnd();
+        }
+        else if (typeView == 2)
+        {
+            // Draw grids velocities
+            for(int64_t i = solverPtr->mMinN.x(); i < solverPtr->mMaxN.x()+1; ++i)
+                for(int64_t j = solverPtr->mMinN.y(); j < solverPtr->mMaxN.y()+1; ++j)
+                    for(int64_t k = solverPtr->mMinN.z(); k < solverPtr->mMaxN.z()+1; ++k)
+                    {
+                        Vec3d vel = ((solverPtr->frameGridV)[idFrame]).getValue(i, j, k);
 
+                        //Vec3d worldVoxelCenter = mGVel->getIndexToWorld(i, j, k) + Vec3d(mVoxelSize / 2.0, mVoxelSize / 2.0, mVoxelSize / 2.0);
+                        Vec3d worldVoxelCenter = ((solverPtr->frameGridV)[idFrame]).getIndexToWorld(i, j, k);
+
+                        LReal xPos = (worldVoxelCenter.x() )*scale_anim;
+                        LReal yPos = (worldVoxelCenter.y() + ((solverPtr->frameGridV)[idFrame]).mVoxelSize / 2.0)*scale_anim;
+                        LReal zPos = (worldVoxelCenter.z() + ((solverPtr->frameGridV)[idFrame]).mVoxelSize / 2.0)*scale_anim;
+
+                        glBegin(GL_LINES);
+                            glVertex3f( xPos, yPos, zPos);
+                            glVertex3f( xPos + vel.x(), yPos, zPos);
+                        glEnd();
+                    }
+        }
+        else if (typeView == 3)
+        {
+            // Draw grids velocities
+            for(int64_t i = solverPtr->mMinN.x(); i < solverPtr->mMaxN.x()+1; ++i)
+                for(int64_t j = solverPtr->mMinN.y(); j < solverPtr->mMaxN.y()+1; ++j)
+                    for(int64_t k = solverPtr->mMinN.z(); k < solverPtr->mMaxN.z()+1; ++k)
+                    {
+                        Vec3d vel = ((solverPtr->frameGridV)[idFrame]).getValue(i, j, k);
+
+                        //Vec3d worldVoxelCenter = mGVel->getIndexToWorld(i, j, k) + Vec3d(mVoxelSize / 2.0, mVoxelSize / 2.0, mVoxelSize / 2.0);
+                        Vec3d worldVoxelCenter = ((solverPtr->frameGridV)[idFrame]).getIndexToWorld(i, j, k);
+
+                        LReal xPos = (worldVoxelCenter.x() + ((solverPtr->frameGridV)[idFrame]).mVoxelSize / 2.0)*scale_anim;
+                        LReal yPos = (worldVoxelCenter.y() )*scale_anim;
+                        LReal zPos = (worldVoxelCenter.z() + ((solverPtr->frameGridV)[idFrame]).mVoxelSize / 2.0)*scale_anim;
+
+                        glBegin(GL_LINES);
+                            glVertex3f( xPos, yPos, zPos);
+                            glVertex3f( xPos, yPos + vel.y(), zPos);
+                        glEnd();
+                    }
+        }
+        else if (typeView == 4)
+        {
+            // Draw grids velocities
+            for(int64_t i = solverPtr->mMinN.x(); i < solverPtr->mMaxN.x()+1; ++i)
+                for(int64_t j = solverPtr->mMinN.y(); j < solverPtr->mMaxN.y()+1; ++j)
+                    for(int64_t k = solverPtr->mMinN.z(); k < solverPtr->mMaxN.z()+1; ++k)
+                    {
+                        Vec3d vel = ((solverPtr->frameGridV)[idFrame]).getValue(i, j, k);
+
+                        //Vec3d worldVoxelCenter = mGVel->getIndexToWorld(i, j, k) + Vec3d(mVoxelSize / 2.0, mVoxelSize / 2.0, mVoxelSize / 2.0);
+                        Vec3d worldVoxelCenter = ((solverPtr->frameGridV)[idFrame]).getIndexToWorld(i, j, k);
+
+                        LReal xPos = (worldVoxelCenter.x() + ((solverPtr->frameGridV)[idFrame]).mVoxelSize / 2.0)*scale_anim;
+                        LReal yPos = (worldVoxelCenter.y() + ((solverPtr->frameGridV)[idFrame]).mVoxelSize / 2.0)*scale_anim;
+                        LReal zPos = (worldVoxelCenter.z() )*scale_anim;
+
+                        glBegin(GL_LINES);
+                            glVertex3f( xPos, yPos, zPos);
+                            glVertex3f( xPos, yPos, zPos + vel.z());
+                        glEnd();
+                    }
+        }
 
 
         glPopMatrix();
@@ -711,6 +794,9 @@ namespace yapfs {
             case GLUT_KEY_F5 :
                 break;
             case GLUT_KEY_F6 :
+                typeView++;
+                if (typeView > 4)
+                    typeView = 0;
                 break;
             case GLUT_KEY_F7 :
                 break;

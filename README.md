@@ -12,6 +12,7 @@ This project is another classical implementation of PIC/FLIP fluid simulation so
 * NVIDIA CUDA 8 and cuSPARSE API
 * Multithread
 * Handling of large grid and large dataset
+* Use of (NVIDIA GVDB Sparse Volumes)[https://developer.nvidia.com/gvdb]
 * Export particles
 * Import from Alembic
 * Unit test

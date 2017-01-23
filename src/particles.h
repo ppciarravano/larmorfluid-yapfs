@@ -67,9 +67,6 @@ namespace yapfs
             Particles(LReal voxelSize);
             void addParticlesInVoxel(Vec3d worldVoxelCenter);
 
-
-            // TODO: remove and change: it is used only for the temporary OpenGL viewer
-            vector< vector<Vec3d> > partFrame;
     };
 
 }
