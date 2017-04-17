@@ -20,7 +20,8 @@ This project is another classical implementation of PIC/FLIP fluid simulation so
 
 The project is still in development and debugging.
 
-[![Video of DEBUG artifacts and issues PIC/FLIP LarmorFluid](http://img.youtube.com/vi/jkg3ykTz2xo/0.jpg)](http://www.youtube.com/watch?v=jkg3ykTz2xo)
+[![Youtube video of DEBUG artifacts and issues PIC/FLIP LarmorFluid](http://img.youtube.com/vi/jkg3ykTz2xo/0.jpg)](http://www.youtube.com/watch?v=jkg3ykTz2xo)
+Youtube Video of DEBUG artifacts and issues PIC/FLIP LarmorFluid.
 
 ### Build and test:
 
